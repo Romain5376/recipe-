@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Type {{ type.libelle }}{% endblock %}
+{% block monTitre %}
+{% if isModification %}
+Modification du type {{ type.libelle }} 
+{% else %}
+Ajout d'un type
+{% endif %}
+{% endblock %}
+{% block body %}
+
+{{form_start(form)}}
+<div class="row justify-content-center mt-5">
+    <div class="col-6">
+        <div class="d-flex justify-content-center">
+            {% if isModification %}
+                <img src="{{ asset('images/types/' ~ type.image) }}" class="sizeImg" />
+            {% endif %}
+        </div>
+        <div>{{ form_row(form.imageFile,{"label" : "Image"}) }}</div>
+        <div>{{ form_row(form.libelle,{"label" : "Type de l'aliment"}) }}</div>
+    </div>
+</div>
+<div class="col-12 text-center mt-3">
+    <input type="submit" class="btn btn-success" value="Enregistrer" style="width:99%;" />
+</div>
+{{form_end(form)}}
+
+
+{% endblock %}

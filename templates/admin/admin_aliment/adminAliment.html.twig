@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin{% endblock %}
+{% block monTitre %}Page d'administration des aliments{% endblock %}
+{% block body %}
+
+{%  for message in app.flashes('success') %}
+<div class="alert alert-success text-center">
+    {{ message }}
+</div>
+{% endfor %}
+<div class="row justify-content-center mt-5 mb-3">
+    <div class="col-6 d-flex justify-content-center">
+        <a class="btn btn-success text-white" href="{{ path('adminAlimentCreation') }}">Ajouter un aliment</a>
+    </div>
+</div>
+<div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12 col-sm-12">
+        <table class="table table-responsive text-center">
+            <tr class="table-info">
+                <th>Image</th>
+                <th>Aliment</th>
+                <th>Type d'aliment</th>
+                <th>Prix (kilo)</th>
+                <th>Calories</th>
+                <th>Protéines</th>
+                <th>Glucides</th>
+                <th>Lipides</th>
+                <th colspan="2">Actions</th>
+                <th></th>
+            </tr>
+            {% for aliment in aliments %}
+            <tr>
+                <td style="width:10%;">
+                    <img src="{{ asset('images/aliments/' ~ aliment.image) }}" class="sizeImg" />
+                </td>
+                <td>{{ aliment.nom }}</td>
+                <td>{{ aliment.type.libelle }}</td>
+                <td>{{ aliment.prix }}€</td>
+                <td>{{ aliment.calorie }}</td>
+                <td>{{ aliment.proteine }}</td>
+                <td>{{ aliment.glucide }}</td>
+                <td>{{ aliment.lipide }}</td>
+                <td>
+                    <a class="btn btn-warning mb-1"
+                        href="{{ path('adminAlimentModification' , {'id' : aliment.id}) }}">Modifier</a>
+                </td>
+                <td>
+                    <form method="POST" action="{{ path('adminAlimentSuppression', {'id' : aliment.id}) }}"
+                        onsubmit="return confirm('Confirmer la suppression ?')">
+                        <input type="hidden" name="_method" value="delete" />
+                        <input type="hidden" name="_token" value="{{ csrf_token('SUP' ~ aliment.id) }}" />
+                        <input type="submit" class="btn btn-danger" value="Supprimer" />
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+
+{% endblock %}

@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Aliments{% endblock %}
+{% block monTitre %}
+    Liste de tous les aliments
+
+    {% if isCalorie %}
+    avec moins de 50 calories
+    {% elseif isGlucide %}
+    avec moins de 5 glucides
+    {% endif %}
+
+{% endblock %}
+{% block body %}
+
+<div class="row mt-5 justify-content-center">
+    <div class="col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center mb-3">
+        <button class="btn btn-success">
+            <a class="text-white" href="{{ path('alimentsParCalorie', {'calorie' : 50}) }}">Aliments avec moins de 50
+                calories au 100g</a>
+        </button>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center mb-3">
+        <button class="btn btn-success">
+            <a class="text-white" href="{{ path('alimentsParGlucide', {'glucide' : 5}) }}">Aliments avec moins de 5
+                glucides au 100g</a>
+        </button>
+    </div>
+    <div class="col-lg-4 col-md-6 col-sm-12 d-flex justify-content-center mb-3">
+        <button class="btn btn-success">
+            <a class="text-white" href="{{ path('aliments') }}">Tous les aliments</a>
+        </button>
+    </div>
+</div>
+
+<div class="row mt-5">
+    {% for aliment in aliments %}
+    <div class="col-12 col-md-6 col-lg-3">
+        <div class="card border-warning mb-3 mx-auto" style="width: 20rem;">
+            <div class="card-header text-center bg-white">
+                <img src="{{ asset('images/aliments/' ~ aliment.image) }}" class="card-img-top" alt="aliments" style="width:70%; height:160px;" />
+            </div>
+            <div class="card-body">
+                <h3 class="card-title text-center border-bottom border-success pb-2">{{ aliment.nom }}</h3>
+                <h5 class="text-center">Prix (kilo): {{ aliment.prix }}€</h5>
+                <h6 class="text-center">Type: 
+                    {% if aliment.type.libelle == "Légumes" %}
+                    <span class="text-success">{{ aliment.type.libelle }}</span>
+                    {% else %}
+                    <span class="text-danger">{{ aliment.type.libelle }}</span>
+                    {% endif %}
+                </h6>
+                <table class="table text-center">
+                    <tr class="table-success">
+                        <th>Propriété</th>
+                        <th>Valeur (100g)</th>
+                    </tr>
+                    <tr>
+                        <td>Calories</td>
+                        <td>{{ aliment.calorie }}</td>
+                    </tr>
+                    <tr>
+                        <td>Protéines</td>
+                        <td>{{ aliment.proteine }}</td>
+                    </tr>
+                    <tr>
+                        <td>Glucides</td>
+                        <td>{{ aliment.glucide }}</td>
+                    </tr>
+                    <tr>
+                        <td>Lipides</td>
+                        <td>{{ aliment.lipide }}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Aliment {{ aliment.nom }}{% endblock %}
+{% block monTitre %}
+{% if isModification %}
+Modification de la {{ aliment.nom }} 
+{% else %}
+Ajout d'un aliment
+{% endif %}
+{% endblock %}
+
+{% block body %}
+
+{{form_start(form)}}
+<div class="row justify-content-center mt-5">
+    <div class="col-6">
+        <div class="d-flex justify-content-center">
+            {% if isModification %}
+                <img src="{{ asset('images/aliments/' ~ aliment.image) }}" class="sizeImg" />
+            {% endif %}
+        </div>
+        <div>{{ form_row(form.imageFile,{"label" : "Image"}) }}</div>
+        <div>{{ form_row(form.nom,{"attr" : {'class':'text-warning'},"label" : "Nom de l'aliment"}) }}</div>
+        <div>{{ form_row(form.type,{"label" : "Type d'aliment"}) }}</div>
+    </div>
+    <div class="col-6">
+        <div>{{ form_row(form.prix,{"label" : "Prix (kilo)"}) }}</div>
+        <div>{{ form_row(form.calorie,{"label" : "Calories"}) }}</div>
+        <div>{{ form_row(form.proteine,{"label" : "Protéines"}) }}</div>
+        <div>{{ form_row(form.glucide,{"label" : "Glucides"}) }}</div>
+        <div>{{ form_row(form.lipide,{"label" : "Lipides"}) }}</div>
+    </div>
+</div>
+<div class="col-12 text-center mt-3">
+    <input type="submit" class="btn btn-success" value="Enregistrer" style="width:99%;" />
+</div>
+{{form_end(form)}}
+
+
+{% endblock %}
